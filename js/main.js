@@ -20,3 +20,12 @@ async function getNewDeck() {
 
     return (await callAPI(API_ENDPOINT_NEW_DECK));
 }
+
+let idDeck = null;
+
+const getApiEndPointShuffleDeck = () => 'https://deckofcardsapi.com/api/deck/' + $idDeck + '/shuffle';
+
+async function shuffleDeck() {
+    console.log(">> shuffleDeck");
+    return (await callAPI(getApiEndPointShuffleDeck()));
+}
