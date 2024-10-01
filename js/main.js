@@ -23,9 +23,53 @@ async function getNewDeck() {
 
 let idDeck = null;
 
-const getApiEndPointShuffleDeck = () => 'https://deckofcardsapi.com/api/deck/' + $idDeck + '/shuffle';
+const getApiEndPointShuffleDeck = () => 'https://deckofcardsapi.com/api/deck/${idDeck}/shuffle';
 
 async function shuffleDeck() {
     console.log(">> shuffleDeck");
     return (await callAPI(getApiEndPointShuffleDeck()));
 }
+
+const getApiEndPointDrawCard = () => 'https://deckofcardsapi.com/api/deck/${idDeck}/draw/?count=1';
+
+async function drawCard() {
+    console.log(">> drawCard");
+    return (await callAPI(getApiEndPointDrawCard()));
+}
+
+const cleanDomCardsFromPreviousDeck = () => document.querySelectorAll(".card").forEach((child) => child.remove);
+
+async function actionReset() {
+    cleanDomCardsFromPreviousDeck();
+
+    const newDeckResponse = await getNewDeck();
+    idDeck = newDeckResponse.deck_id;//idDeck?
+
+    await shuffleDeck();
+}
+
+const cardsContainer = document.getElementById("cards-container");
+
+function addCardToDomByImgUri(imguri){
+    const imgCardHtmlElement = document.createElement("img");
+    imgCardHtmlElement.classList.add("card");
+    imgCardHtmlElement.src = imguri;
+
+    cardsContainer.append(imgCardHtmlElement);
+}
+
+async function actionDraw() {
+    const drawCardResponse = await drawCard();
+    console.log("drawCardResponse = ", drawCardResponse);
+    const imgCardUri = drawCardResponse.cards[0].image;
+
+    addCardToDomByImgUri(imgCardUri);
+}
+
+actionReset();
+
+const actionResetButton = document.getElementById("action-reset")
+const actionDrawButton = document.getElementById("action-draw")
+
+actionResetButton.addEventListener("click", actionReset);
+actionDrawButton.addEventListener("click", actionDraw);
