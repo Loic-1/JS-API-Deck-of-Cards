@@ -1,3 +1,5 @@
+actionReset();
+
 async function callAPI(uri) {
     console.log("-- callAPI - start --");
     console.log("url = ", uri);
@@ -10,7 +12,7 @@ async function callAPI(uri) {
 
     console.log("-- callAPI - end --");
 
-    return (data);
+    return data;
 }
 
 const API_ENDPOINT_NEW_DECK = "https://deckofcardsapi.com/api/deck/new/";
@@ -18,26 +20,26 @@ const API_ENDPOINT_NEW_DECK = "https://deckofcardsapi.com/api/deck/new/";
 async function getNewDeck() {
     console.log(">> getNewDeck");
 
-    return (await callAPI(API_ENDPOINT_NEW_DECK));
+    return await callAPI(API_ENDPOINT_NEW_DECK);
 }
 
 let idDeck = null;
 
-const getApiEndPointShuffleDeck = () => 'https://deckofcardsapi.com/api/deck/${idDeck}/shuffle';
+const getApiEndPointShuffleDeck = () => 'https://deckofcardsapi.com/api/deck/${idDeck}/shuffle/';
 
 async function shuffleDeck() {
     console.log(">> shuffleDeck");
-    return (await callAPI(getApiEndPointShuffleDeck()));
+    return await callAPI(getApiEndPointShuffleDeck());
 }
 
 const getApiEndPointDrawCard = () => 'https://deckofcardsapi.com/api/deck/${idDeck}/draw/?count=1';
 
 async function drawCard() {
     console.log(">> drawCard");
-    return (await callAPI(getApiEndPointDrawCard()));
+    return await callAPI(getApiEndPointDrawCard());
 }
 
-const cleanDomCardsFromPreviousDeck = () => document.querySelectorAll(".card").forEach((child) => child.remove);
+const cleanDomCardsFromPreviousDeck = () => document.querySelectorAll(".card").forEach((child) => child.remove());
 
 async function actionReset() {
     cleanDomCardsFromPreviousDeck();
@@ -50,10 +52,10 @@ async function actionReset() {
 
 const cardsContainer = document.getElementById("cards-container");
 
-function addCardToDomByImgUri(imguri){
+function addCardToDomByImgUri(imgUri){
     const imgCardHtmlElement = document.createElement("img");
     imgCardHtmlElement.classList.add("card");
-    imgCardHtmlElement.src = imguri;
+    imgCardHtmlElement.src = imgUri;
 
     cardsContainer.append(imgCardHtmlElement);
 }
@@ -66,10 +68,10 @@ async function actionDraw() {
     addCardToDomByImgUri(imgCardUri);
 }
 
-actionReset();
+
 
 const actionResetButton = document.getElementById("action-reset")
 const actionDrawButton = document.getElementById("action-draw")
 
-actionResetButton.addEventListener("click", actionReset);
-actionDrawButton.addEventListener("click", actionDraw);
+actionResetButton.addEventListener("click", actionReset());
+actionDrawButton.addEventListener("click", actionDraw());
