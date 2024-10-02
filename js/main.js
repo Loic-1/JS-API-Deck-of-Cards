@@ -15,7 +15,7 @@ async function callAPI(uri) {
     return data;
 }
 
-const API_ENDPOINT_NEW_DECK = "https://deckofcardsapi.com/api/deck/new/";
+const API_ENDPOINT_NEW_DECK = `https://deckofcardsapi.com/api/deck/new/`;//je savais pas qu'il fallait utiliser des backticks j'ai perdu 3 heures à la maison
 
 async function getNewDeck() {
     console.log(">> getNewDeck");
@@ -25,14 +25,14 @@ async function getNewDeck() {
 
 let idDeck = null;
 
-const getApiEndPointShuffleDeck = () => 'https://deckofcardsapi.com/api/deck/${idDeck}/shuffle/';
+const getApiEndPointShuffleDeck = () => `https://deckofcardsapi.com/api/deck/${idDeck}/shuffle/`;
 
 async function shuffleDeck() {
     console.log(">> shuffleDeck");
     return await callAPI(getApiEndPointShuffleDeck());
 }
 
-const getApiEndPointDrawCard = () => 'https://deckofcardsapi.com/api/deck/${idDeck}/draw/?count=1';
+const getApiEndPointDrawCard = () => `https://deckofcardsapi.com/api/deck/${idDeck}/draw/?count=1`;
 
 async function drawCard() {
     console.log(">> drawCard");
@@ -73,5 +73,5 @@ async function actionDraw() {
 const actionResetButton = document.getElementById("action-reset")
 const actionDrawButton = document.getElementById("action-draw")
 
-actionResetButton.addEventListener("click", actionReset());
-actionDrawButton.addEventListener("click", actionDraw());
+actionResetButton.addEventListener("click", actionReset);
+actionDrawButton.addEventListener("click", actionDraw);
