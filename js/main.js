@@ -79,6 +79,13 @@ async function actionReset() {
     // récupération de l'id de ce nouveau deck dans les données reçues et mise à jour de la variable globale
     idDeck = newDeckResponse.deck_id;
 
+    // changement couleur actionDrawButton en noir et curseur et normal
+    actionDrawButton.style.color = "var(--main-font-color)";
+    actionDrawButton.style.cursor = "pointer"
+    actionDrawButton.style.backgroundColor = "var(--button-background-color)"
+    // actionDrawButton.style.borderStyle = "inset";
+    counter.innerText = "";
+
     // mélange du deck
     await shuffleDeck();
 }
@@ -102,13 +109,28 @@ async function actionDraw() {
     // appel à l'API pour demander au croupier de piocher une carte et de nous la renvoyer
     const drawCardResponse = await drawCard();
 
-    console.log("drawCardResponse = ", drawCardResponse);
+    // regarde s'il reste au moins une carte dans le deck et vérifie si la dernière carte a bien été reçue
+    if (drawCardResponse.remaining >= 0 && drawCardResponse.success == true) {
+        console.log("drawCardResponse = ", drawCardResponse);
 
-    // récupération de l'URI de l'image de cette carte dans les données reçues
-    const imgCardUri = drawCardResponse.cards[0].image;
+        // récupération de l'URI de l'image de cette carte dans les données reçues
+        const imgCardUri = drawCardResponse.cards[0].image;
 
-    // ajout de la carte piochée dans la zone des cartes piochées
-    addCardToDomByImgUri(imgCardUri);
+        // ajout de la carte piochée dans la zone des cartes piochées
+        addCardToDomByImgUri(imgCardUri);
+
+        counter.innerText = "Remaining cards : " + drawCardResponse.remaining;
+
+        if (drawCardResponse.remaining == 0) {
+            actionDrawButton.style.color = "gray";
+            actionDrawButton.style.backgroundColor = "var(--button-background-color-dark)";
+            actionDrawButton.style.cursor = "default";
+            actionDrawButton.style.borderStyle = "outset";
+        }
+    }
+    else {
+        console.error("Il n'y a plus de cartes dans le deck")
+    }
 }
 
 // appel d'initialisation au lancement de l'application
@@ -117,6 +139,7 @@ actionReset();
 // éléments HTML utiles pour les évènements et pour la manipulation du DOM
 const actionResetButton = document.getElementById("action-reset")
 const actionDrawButton = document.getElementById("action-draw")
+const counter = document.getElementById("card-count");
 
 // écoutes d'évènements sur les boutons d'action
 actionResetButton.addEventListener("click", actionReset);
