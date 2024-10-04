@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Piocher des cartes</title>
-    <link rel="stylesheet" href="./css/main.css">
-</head>
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
 
-<body>
+  <body>
     <div id="main-container">
-        <div id="card-count"></div>
-        <div id="actions-container">
-            <button id="action-reset" tabindex="1">RESET</button>
-            <button id="action-draw" tabindex="2">Draw</button>
-            <button id="action-return" tabindex="3">Return</button>
+      <div id="card-count"></div>
+      <div id="actions-container">
+        <button id="action-reset" tabindex="1">RESET</button>
+        <button id="action-draw" tabindex="2">Draw</button>
+        <div class="return-card">
+          <input
+            type="text"
+            class="card_list"
+            name="card list"
+            id="card-list"
+            placeholder="Liste de cartes à supprimer ..."
+          />
+          <button id="action-return" tabindex="3">Return</button>
         </div>
-        <div id="cards-container"></div>
+        <div id="iii"></div>
+      </div>
+      <div id="cards-container"></div>
     </div>
     <script src="./js/main.js"></script>
-</body>
-
+  </body>
 </html>
