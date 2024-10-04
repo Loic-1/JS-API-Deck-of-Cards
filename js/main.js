@@ -73,7 +73,7 @@ const cleanDomCardsFromPreviousDeck = () =>
 async function actionReset() {
   // vider dans le DOM les cartes de l'ancien deck
   cleanDomCardsFromPreviousDeck();
-  
+
   // récupération d'un nouveau deck
   const newDeckResponse = await getNewDeck();
 
@@ -145,9 +145,14 @@ let cleanInput = "";
 // transorme l'input en uppercase sans espaces
 inputCards.addEventListener("input", () => {
   let rawInput = inputCards.value;
-  let upperInput = rawInput.toUpperCase();
-  cleanInput = upperInput.replaceAll(" ", "");
-  inputCards.innerText = cleanInput;
+  let upperInput = rawInput.toUpperCase().replaceAll(" ", "");
+
+  const cardRegex = /^(10|[2-9]|[JQKA])[CDHS]+$/;
+
+  if (cardRegex.test(upperInput)) {
+    cleanInput = upperInput;
+    console.log(cleanInput + " is a valid input");
+  }
 });
 
 async function returnCard() {
@@ -157,9 +162,14 @@ async function returnCard() {
 }
 
 async function actionReturn() {
-    const returnCardResponse = await returnCard();
+  const returnCardResponse = await returnCard();
 
-    counter.innerText = "Remaining cards : " + returnCardResponse.remaining;
+  // champ de  saisie nettoyé
+  inputCards.value = null;
+  // réinitialisation variable cleanInput
+  cleanInput = "";
+
+  counter.innerText = "Remaining cards : " + returnCardResponse.remaining;
 }
 
 // appel d'initialisation au lancement de l'application
