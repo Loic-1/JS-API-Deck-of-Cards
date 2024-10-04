@@ -146,6 +146,7 @@ let cleanInput = "";
 inputCards.addEventListener("input", () => {
   let rawInput = inputCards.value;
   let upperInput = rawInput.toUpperCase().replaceAll(" ", "");
+  // cartes en 10 représentées par des 0 pas des 10 ...(-2heures suffisait de lire la docu)
   upperInput = upperInput.replaceAll("10", "0");
 
   cleanInput = upperInput;
