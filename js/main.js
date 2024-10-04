@@ -133,14 +133,34 @@ async function actionDraw() {
     }
 }
 
+//TEST
+
+
+const getApiEndPointReturnCard = () => `https://deckofcardsapi.com/api/deck/${idDeck}/return/`;
+
+async function returnCard(params) {
+    console.log(">> return card");
+
+    return await callAPI(getApiEndPointReturnCard());
+}
+
+
+
+
+
+
+
+
 // appel d'initialisation au lancement de l'application
 actionReset();
 
 // éléments HTML utiles pour les évènements et pour la manipulation du DOM
-const actionResetButton = document.getElementById("action-reset")
-const actionDrawButton = document.getElementById("action-draw")
+const actionResetButton = document.getElementById("action-reset");
+const actionDrawButton = document.getElementById("action-draw");
+const actionReturnButton = document.getElementById("action-return");
 const counter = document.getElementById("card-count");
 
 // écoutes d'évènements sur les boutons d'action
 actionResetButton.addEventListener("click", actionReset);
 actionDrawButton.addEventListener("click", actionDraw);
+actionReturnButton.addEventListener("click", returnCard);

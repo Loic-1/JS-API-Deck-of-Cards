@@ -62,8 +62,7 @@ button {
     color: var(--main-font-color);
 }
 
-#action-reset,
-#action-draw {
+button {
     background-color: var(--button-background-color);
     cursor: pointer;
     transition: 0.01s;
