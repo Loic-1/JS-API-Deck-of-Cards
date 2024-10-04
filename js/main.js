@@ -155,6 +155,12 @@ async function returnCard() {
   return await callAPI(getApiEndPointReturnCard());
 }
 
+async function actionReturn() {
+    const returnCardResponse = await returnCard();
+
+    counter.innerText = "Remaining cards : " + returnCardResponse.remaining;
+}
+
 // appel d'initialisation au lancement de l'application
 actionReset();
 
@@ -167,4 +173,4 @@ const counter = document.getElementById("card-count");
 // écoutes d'évènements sur les boutons d'action
 actionResetButton.addEventListener("click", actionReset);
 actionDrawButton.addEventListener("click", actionDraw);
-actionReturnButton.addEventListener("click", returnCard);
+actionReturnButton.addEventListener("click", actionReturn);
