@@ -73,7 +73,7 @@ const cleanDomCardsFromPreviousDeck = () =>
 async function actionReset() {
   // vider dans le DOM les cartes de l'ancien deck
   cleanDomCardsFromPreviousDeck();
-
+  
   // récupération d'un nouveau deck
   const newDeckResponse = await getNewDeck();
 
