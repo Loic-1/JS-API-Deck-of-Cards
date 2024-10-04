@@ -134,7 +134,7 @@ async function actionDraw() {
   }
 }
 
-//fonction RETURN
+// fonction RETURN
 
 const getApiEndPointReturnCard = () =>
   `https://deckofcardsapi.com/api/deck/${idDeck}/return/?cards=${cleanInput}`;
@@ -142,6 +142,7 @@ const getApiEndPointReturnCard = () =>
 const inputCards = document.getElementById("card-list");
 let cleanInput = "";
 
+// transorme l'input en uppercase sans espaces
 inputCards.addEventListener("input", () => {
   let rawInput = inputCards.value;
   let upperInput = rawInput.toUpperCase();
