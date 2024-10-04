@@ -5,6 +5,7 @@
   --main-background-color: #308834;
   --button-background-color: #225f24;
   --button-background-color-dark: #1b4c1d;
+  --input-background-color: #29722b;
 }
 
 * {
@@ -27,7 +28,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   flex-wrap: wrap;
   gap: 100px;
 }
@@ -71,4 +72,14 @@ button {
 .return-card{
     display: flex;
     flex-direction: column;
+    width: 170px;
+}
+
+.return-card input{
+    background-color: var(--input-background-color);
+    color: var(--main-font-color);
+}
+
+.return-card input::placeholder{
+    color: var(--main-font-color);
 }
