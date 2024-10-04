@@ -146,6 +146,7 @@ let cleanInput = "";
 inputCards.addEventListener("input", () => {
   let rawInput = inputCards.value;
   let upperInput = rawInput.toUpperCase().replaceAll(" ", "");
+  upperInput = upperInput.replaceAll("10", "0");
 
   cleanInput = upperInput;
 });
@@ -153,13 +154,13 @@ inputCards.addEventListener("input", () => {
 async function returnCard() {
   console.log(">> return card");
 
-  console.log("Raw: " + cleanInput);
+  console.log("Clean unchecked: " + cleanInput);
 
   // split à chaque ',' cad transforme en array
   let cardArray = cleanInput.split(",");
 
   // filtre les string invalides
-  const cardRegex = /^(10|[2-9]|[JQKA])[CDHS]$/;
+  const cardRegex = /^(0|[2-9]|[JQKA])[CDHS]$/;
 
   // filtre les mauvais strings
   let validCards = cardArray.filter((card) => cardRegex.test(card));
@@ -167,7 +168,7 @@ async function returnCard() {
   // remer ensemble chaque valeur de validCards et met ',' en séparation
   cleanInput = validCards.join(",");
 
-  console.log("Cleaned: " + cleanInput);
+  console.log("Valid cards: " + cleanInput);
 
   return await callAPI(getApiEndPointReturnCard());
 }
