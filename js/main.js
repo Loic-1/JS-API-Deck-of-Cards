@@ -55,7 +55,7 @@ const API_ENDPOINT_NEW_DECK = `https://deckofcardsapi.com/api/deck/new/`; //je s
 async function getNewDeck() {
     console.log(">> getNewDeck");
 
-    return await callAPI(API_ENDPOINT_NEW_DECK);
+    return await axios(callAPI(API_ENDPOINT_NEW_DECK));
 }
 
 // variable globale : l'id du deck utilisé, dans lequel on pioche
@@ -69,7 +69,7 @@ const getApiEndPointShuffleDeck = () =>
 async function shuffleDeck() {
     console.log(">> shuffleDeck");
 
-    return await callAPI(getApiEndPointShuffleDeck());
+    return await axios(callAPI(getApiEndPointShuffleDeck()));
 }
 
 // fonctions (syntaxe de onction fléchée) qui renvoient des URI dynamiques de demande de mélange du deck et de pioche
@@ -80,7 +80,7 @@ const getApiEndPointDrawCard = () =>
 async function drawCard() {
     console.log(">> drawCard");
 
-    return await callAPI(getApiEndPointDrawCard());
+    return await axios(callAPI(getApiEndPointDrawCard()));
 }
 
 // supprime les cartes de l'ancien deck du DOM
@@ -99,9 +99,9 @@ async function actionReset() {
     cleanDomCardsFromPreviousDeck();
 
     // récupération d'un nouveau deck
-    const newDeckResponse = await getNewDeck();
+    const newDeckResponse = await axios(getNewDeck());
 
-    // récupération de l'id de ce nouveau deck dans les données reçues et mise à jour de la variable globale
+    // récupération de l'id de ce nouveau deck dans les données reçues et mise à jour de la variable global
     idDeck = newDeckResponse.deck_id;
 
     // changement couleur actionDrawButton en noir et curseur et normal
@@ -112,7 +112,7 @@ async function actionReset() {
     counter.innerText = "";
 
     // mélange du deck
-    await shuffleDeck();
+    await axios(shuffleDeck());
 }
 
 // éléments HTML utiles pour les évènements et pour la manipulation du DOM
@@ -132,7 +132,7 @@ function addCardToDomByImgUri(imgUri) {
 // fonction qui demande à piocher une carte, puis qui fait l'appel pour l'intégrer dans le DOM
 async function actionDraw() {
     // appel à l'API pour demander au croupier de piocher une carte et de nous la renvoyer
-    const drawCardResponse = await drawCard();
+    const drawCardResponse = await axios(drawCard());
 
     // regarde s'il reste au moins une carte dans le deck et vérifie si la dernière carte a bien été reçue
     if (drawCardResponse.remaining >= 0 && drawCardResponse.success == true) {
@@ -199,7 +199,7 @@ async function returnCard() {
 }
 
 async function actionReturn() {
-    const returnCardResponse = await returnCard();
+    const returnCardResponse = await axios(returnCard());
 
     // champ de  saisie nettoyé
     inputCards.value = null;
