@@ -21,44 +21,33 @@
 //     }
 // }
 
-
-
-
+//fetch() to axios
 
 async function callAPI(uri) {
     console.log("-- callAPI - start --");
     console.log("url = ", uri);
 
-    try {
-        await axios
-            .get(uri)
-            .then(response => {
-                console.log("response = ", response);
-                const data = response.data.data;
-                console.log("data = ", data);
-                console.log("-- callAPI - end --");
-                return data;
-            })
-    } catch (error) {
-        console.error(error.message);
-    }
+    axios.get(uri)
+        .then(function (response) {
+            console.log("response = ", response);
+            const data = response.data;
+            console.log("data = ", data);
+            console.log("-- callAPI - end --");
+            return data;
+        })
+        .catch(function (error) {
+            console.error(error.message);
+        })
 }
-
-
-
-
 
 // constante globale : l'URI du endpoint de demande de nouveau deck
 const API_ENDPOINT_NEW_DECK = `https://deckofcardsapi.com/api/deck/new/`; //je savais pas qu'il fallait utiliser des backticks j'ai perdu 3 heures à la maison
-
-// fausse URI pour test
-// const API_ENDPOINT_NEW_DECK = `https://deckofcardsapi.com/api/deck/ne/`;
 
 // fonction de demande de nouveau deck
 async function getNewDeck() {
     console.log(">> getNewDeck");
 
-    return       axios(callAPI(API_ENDPOINT_NEW_DECK));
+    return await axios(callAPI(API_ENDPOINT_NEW_DECK));
 }
 
 // variable globale : l'id du deck utilisé, dans lequel on pioche
@@ -198,7 +187,7 @@ async function returnCard() {
 
     console.log("Valid cards: " + cleanInput);
 
-    return await callAPI(getApiEndPointReturnCard());
+    return await axios(callAPI(getApiEndPointReturnCard()));
 }
 
 async function actionReturn() {
