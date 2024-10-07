@@ -73,6 +73,7 @@ button {
     display: flex;
     flex-direction: column;
     width: 170px;
+    gap: 3px;
 }
 
 .return-card input{

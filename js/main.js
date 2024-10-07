@@ -27,27 +27,30 @@ async function callAPI(uri) {
     console.log("-- callAPI - start --");
     console.log("url = ", uri);
 
-    axios.get(uri)
-        .then(function (response) {
-            console.log("response = ", response);
-            const data = response.data;
-            console.log("data = ", data);
-            console.log("-- callAPI - end --");
-            return data;
-        })
-        .catch(function (error) {
-            console.error(error.message);
-        })
+    try {
+        // appel à l'API et réception de la réponse
+        const response = await axios.get(uri);
+        console.log("response = ", response);
+        // récupération des données JSON reçues de l'API
+        const data = response.data;
+        console.log(data);
+
+        console.log("-- callAPI - end --");
+
+        // renvoi des données
+        return data;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 // constante globale : l'URI du endpoint de demande de nouveau deck
 const API_ENDPOINT_NEW_DECK = `https://deckofcardsapi.com/api/deck/new/`; //je savais pas qu'il fallait utiliser des backticks j'ai perdu 3 heures à la maison
 
 // fonction de demande de nouveau deck
-async function getNewDeck() {
+async function getNewDeck() { //return callAPI(API_ENDPOINT_NEW_DECK) return data
     console.log(">> getNewDeck");
-
-    return await axios(callAPI(API_ENDPOINT_NEW_DECK));
+    return await callAPI(API_ENDPOINT_NEW_DECK);
 }
 
 // variable globale : l'id du deck utilisé, dans lequel on pioche
@@ -61,7 +64,7 @@ const getApiEndPointShuffleDeck = () =>
 async function shuffleDeck() {
     console.log(">> shuffleDeck");
 
-    return await axios(callAPI(getApiEndPointShuffleDeck()));
+    return await callAPI(getApiEndPointShuffleDeck());
 }
 
 // fonctions (syntaxe de onction fléchée) qui renvoient des URI dynamiques de demande de mélange du deck et de pioche
@@ -72,7 +75,7 @@ const getApiEndPointDrawCard = () =>
 async function drawCard() {
     console.log(">> drawCard");
 
-    return await axios(callAPI(getApiEndPointDrawCard()));
+    return await callAPI(getApiEndPointDrawCard());
 }
 
 // supprime les cartes de l'ancien deck du DOM
@@ -91,20 +94,20 @@ async function actionReset() {
     cleanDomCardsFromPreviousDeck();
 
     // récupération d'un nouveau deck
-    const newDeckResponse = await axios(getNewDeck());
+    const newDeckResponse = await getNewDeck(); // data
 
     // récupération de l'id de ce nouveau deck dans les données reçues et mise à jour de la variable global
-    idDeck = newDeckResponse.deck_id;
+    idDeck = newDeckResponse.deck_id; // == data.deck_id
 
     // changement couleur actionDrawButton en noir et curseur et normal
     actionDrawButton.style.color = "var(--main-font-color)";
     actionDrawButton.style.cursor = "pointer";
     actionDrawButton.style.backgroundColor = "var(--button-background-color)";
-    // actionDrawButton.style.borderStyle = "inset";
+
     counter.innerText = "";
 
     // mélange du deck
-    await axios(shuffleDeck());
+    await shuffleDeck();
 }
 
 // éléments HTML utiles pour les évènements et pour la manipulation du DOM
@@ -124,7 +127,7 @@ function addCardToDomByImgUri(imgUri) {
 // fonction qui demande à piocher une carte, puis qui fait l'appel pour l'intégrer dans le DOM
 async function actionDraw() {
     // appel à l'API pour demander au croupier de piocher une carte et de nous la renvoyer
-    const drawCardResponse = await axios(drawCard());
+    const drawCardResponse = await drawCard();
 
     // regarde s'il reste au moins une carte dans le deck et vérifie si la dernière carte a bien été reçue
     if (drawCardResponse.remaining >= 0 && drawCardResponse.success == true) {
@@ -169,29 +172,29 @@ inputCards.addEventListener("input", () => {
 });
 
 async function returnCard() {
-    console.log(">> return card");
+    console.log(">> returnCard");
 
     console.log("Clean unchecked: " + cleanInput);
 
-    // split à chaque ',' cad transforme en array [AS,Z,3S]
-    let cardArray = cleanInput.split(",");
+    // split à chaque ',' cad transforme en array
+    let cardArray = cleanInput.split(",");// [AS,Z,3S]
 
-    // filtre les string invalides [AS,Z,3S]
-    const cardRegex = /^(0|[2-9]|[JQKA])[CDHS]$/;
+    // filtre les string invalides
+    const cardRegex = /^(0|[2-9]|[JQKA])[CDHS]$/;// [AS,Z,3S]
 
     // filtre les mauvais strings 
     let validCards = cardArray.filter((card) => cardRegex.test(card));
 
-    // remet ensemble chaque valeur de validCards et met ',' en séparation "AS,3S"
-    cleanInput = validCards.join(",");
+    // remet ensemble chaque valeur de validCards et met ',' en séparation
+    cleanInput = validCards.join(",");// "AS,3S"
 
     console.log("Valid cards: " + cleanInput);
 
-    return await axios(callAPI(getApiEndPointReturnCard()));
+    return await callAPI(getApiEndPointReturnCard());
 }
 
 async function actionReturn() {
-    const returnCardResponse = await axios(returnCard());
+    const returnCardResponse = await returnCard();
 
     // champ de  saisie nettoyé
     inputCards.value = null;
