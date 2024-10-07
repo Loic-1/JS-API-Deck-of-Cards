@@ -30,10 +30,13 @@ async function callAPI(uri) {
     console.log("url = ", uri);
 
     try {
-        axios
+        await axios
             .get(uri)
             .then(response => {
-                const data = response.data.data
+                console.log("response = ", response);
+                const data = response.data.data;
+                console.log("data = ", data);
+                console.log("-- callAPI - end --");
                 return data;
             })
     } catch (error) {
@@ -55,7 +58,7 @@ const API_ENDPOINT_NEW_DECK = `https://deckofcardsapi.com/api/deck/new/`; //je s
 async function getNewDeck() {
     console.log(">> getNewDeck");
 
-    return await axios(callAPI(API_ENDPOINT_NEW_DECK));
+    return       axios(callAPI(API_ENDPOINT_NEW_DECK));
 }
 
 // variable globale : l'id du deck utilisé, dans lequel on pioche
