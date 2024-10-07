@@ -33,6 +33,7 @@ async function callAPI(uri) {
         console.log("response = ", response);
         // récupération des données JSON reçues de l'API
         const data = response.data;
+        console.log("data = ", data);
         console.log(data);
 
         console.log("-- callAPI - end --");
